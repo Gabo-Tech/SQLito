@@ -34,7 +34,9 @@ update Products set Price="50" where Product_Id="1";
 --Seleccione todos los productos con un precio superior a 20€.
 select * from Products where Price>"20";
 --Muestre de forma descendente los productos.
+select* from Products where id desc;
 --Seleccione todos los productos y que muestre la categoría a la que pertenecen.
+
 --Seleccione todos los usuarios y muestre sus pedidos.
 --Selecciona un producto por su id y que muestre la categoría a la que pertenece.
 --Seleccione a un usuario por su id y muestre los pedidos que tiene.
