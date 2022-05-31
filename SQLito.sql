@@ -6,6 +6,57 @@
 --Debe mostrar los tipos de relaciones entre cada tabla. *Recuerda que en el caso de una relación muchos a muchos necesitarás una tabla intermedia.
 --Hecho con Workbench so...
 use myFirstDB;
+
+CREATE TABLE Customers(
+Address VARCHAR(50), 
+City VARCHAR(50), 
+Customer_Email VARCHAR(50), 
+Customer_Id INT AUTO_INCREMENT, 
+First_Name VARCHAR(50), 
+Last_Name VARCHAR(50), 
+Password VARCHAR(50), 
+Phone INT, 
+PostCode INT,
+PRIMARY KEY(Customer_Id)
+);
+
+CREATE TABLE Orders(
+Order_Id INT AUTO_INCREMENT, 
+Product_Id, 
+Product_Qty,
+fecha date,
+Customer_Id INT,
+PRIMARY KEY(Order_Id),
+FOREIGN KEY(Customer_Id) REFERENCES Customers(id)
+);
+
+CREATE TABLE Products(
+Product_Id INT AUTO_INCREMENT, 
+Product_Name VARCHAR(50), 
+Product_Description VARCHAR(500), 
+Price, 
+Stock, 
+Category_Id,
+PRIMARY KEY(Product_Id)
+);
+
+CREATE TABLE Categories(
+Category_Id INT AUTO_INCREMENT,
+CategoryName VARCHAR(50),
+Category_Description VARCHAR(50),
+PRIMARY KEY(Category_Id)
+);
+
+CREATE TABLE Productoscategorias(
+id INT AUTO_INCREMENT,
+Product_Id INT,
+Category_Id INT,
+PRIMARY KEY(id),
+FOREIGN KEY(Product_Id) REFERENCES Products(Product_Id) ON DELETE CASCADE,
+FOREIGN KEY(Category_Id) REFERENCES Categories(Category_Id)
+);
+
+
 --Inserte al menos 5 nuevos usuarios.
 insert into Users (Address, City, Customer_Email, Customer_Id, First_Name, Last_Name, Password, Phone, PostCode) values ("Dirección1","Ciudad1","email1","1","Pepito","Sqlito","contraseña1","646858274","46470");
 insert into Users (Address, City, Customer_Email, First_Name, Last_Name, Password, Phone, PostCode) values ("Dirección2","Ciudad2","email2","Pepito2","Sqlito2","contraseña2","646858272","46472");
@@ -36,7 +87,18 @@ select * from Products where Price>"20";
 --Muestre de forma descendente los productos.
 select* from Products where id desc;
 --Seleccione todos los productos y que muestre la categoría a la que pertenecen.
+SELECT Product_Name, CategoryName FROM Productoscategorias 
+INNER JOIN Categories ON Category_Id = Productoscategorias.Category_Id
+INNER JOIN Products ON Product_Id = Productoscategorias.Product_Id;
 
 --Seleccione todos los usuarios y muestre sus pedidos.
+SELECT * FROM Users INNER JOIN Orders ON users.id = Orders.user_id;
+
 --Selecciona un producto por su id y que muestre la categoría a la que pertenece.
+SELECT Product_Name, CategoryName FROM Productoscategorias 
+INNER JOIN Categories ON categories.id = Productoscategorias.Category_Id
+INNER JOIN Products ON Product_Id = Productoscategorias.Product_Id
+WHERE Product_Id = 1;
+
 --Seleccione a un usuario por su id y muestre los pedidos que tiene.
+SELECT * FROM Users INNER JOIN Orders ON Customer_Id = Orders.user_id WHERE Customer_Id = 1;
